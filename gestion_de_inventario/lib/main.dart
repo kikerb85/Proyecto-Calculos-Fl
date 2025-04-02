@@ -1,8 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:gestion_de_inventario/firebase_options.dart';
-import 'package:gestion_de_inventario/registro_screen.dart';
-import 'package:gestion_de_inventario/login_screen.dart';
+import 'package:gestion_de_inventario/screens/sing/registro_screen.dart';
+import 'package:gestion_de_inventario/screens/login/login_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
