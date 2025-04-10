@@ -19,7 +19,7 @@ class Producto {
   required this.stock,
  });
 
- Map<String, dynamic> tofireStore(){
+ Map<String, dynamic> toFirestore(){
   return{
     'nombre' : nombre,
     'categoria' : categoria,

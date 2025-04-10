@@ -11,7 +11,7 @@ class InventarioProvider extends ChangeNotifier {
 
   Future<void> agregarProducto(Producto producto) async {
     try {
-      final docRef = await _inventario.add(producto.tofireStore());
+      final docRef = await _inventario.add(producto.toFirestore());
       final nuevoProducto = Producto.fromFirestore(
           await docRef.get() as DocumentSnapshot<Map<String, dynamic>>);
       _productos.add(nuevoProducto);
@@ -23,10 +23,7 @@ class InventarioProvider extends ChangeNotifier {
 
   Future<void> editarProducto(Producto producto) async {
     try {
-      if (producto.id == null) {
-        throw ArgumentError('El ID del producto es necesario para actualizar el producto');
-      }
-      await _inventario.doc(producto.id).update(producto.tofireStore());
+      await _inventario.doc(producto.id).update(producto.toFirestore());
       // Actualizar la lista local de productos
       final index = _productos.indexWhere((p) => p.id == producto.id);
       if (index != -1) {
@@ -52,7 +49,7 @@ class InventarioProvider extends ChangeNotifier {
   Future<void> cargarProductosInicial() async {
     try {
       final snapshot = await _inventario.get();
-      _productos = snapshot.docs.map((doc) => Producto.fromFirestore(doc)).toList();
+      _productos = snapshot.docs.map((doc) => Producto.fromFirestore(doc as DocumentSnapshot<Map<String, dynamic>>)).toList();
       notifyListeners();
     } catch (e) {
      
@@ -62,7 +59,7 @@ class InventarioProvider extends ChangeNotifier {
  
   Stream<List<Producto>> obtenerProductosStream() {
     return _inventario.snapshots().map((snapshot) {
-      return snapshot.docs.map((doc) => Producto.fromFirestore(doc)).toList();
+      return snapshot.docs.map((doc) => Producto.fromFirestore(doc as DocumentSnapshot<Map<String, dynamic>>)).toList();
     });
   }
 
