@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:gestion_de_inventario/screens/home/home_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -14,16 +15,18 @@ class _LoginScreenState extends State<LoginScreen> {
   final _passwordController = TextEditingController();
 
   Future<void> _iniciarSesion() async {
-    if (_formKey.currentState!.validate()) {
-      try {
-        await FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: _emailController.text,
-          password: _passwordController.text,
-        );
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Inicio de sesión exitoso!')),
-        );
-      } on FirebaseAuthException catch (e) {
+     if (_formKey.currentState!.validate()) {
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: _emailController.text,
+        password: _passwordController.text,
+      );
+      // Inicio de sesión exitoso, navega a HomeScreen
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const HomeScreen()),
+      );
+    } on FirebaseAuthException catch (e) {
         String errorMessage = 'Ocurrió un error.';
         if (e.code == 'user-not-found' || e.code == 'wrong-password') {
           errorMessage = 'Correo electrónico o contraseña incorrectos.';

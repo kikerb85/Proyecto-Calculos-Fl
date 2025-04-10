@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:gestion_de_inventario/screens/login/login_screen.dart'; // Importa la pantalla de inicio de sesión
 
 class RegistroScreen extends StatefulWidget {
-  const RegistroScreen({super.key});
+  const RegistroScreen({Key? key}) : super(key: key);
 
   @override
   _RegistroScreenState createState() => _RegistroScreenState();
@@ -20,9 +21,7 @@ class _RegistroScreenState extends State<RegistroScreen> {
           email: _emailController.text,
           password: _passwordController.text,
         );
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(const SnackBar(content: Text('Registro exitoso!')));
+        _mostrarDialogoRegistroExitoso(context); // Muestra el diálogo de éxito
       } on FirebaseAuthException catch (e) {
         String errorMessage = 'Ocurrió un error.';
         if (e.code == 'weak-password') {
@@ -30,11 +29,33 @@ class _RegistroScreenState extends State<RegistroScreen> {
         } else if (e.code == 'email-already-in-use') {
           errorMessage = 'Ya existe una cuenta con ese correo electrónico.';
         }
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text(errorMessage)));
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(errorMessage)));
       }
     }
+  }
+
+  void _mostrarDialogoRegistroExitoso(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Registro Exitoso'),
+          content: const Text('¡Tu registro se completó con éxito!'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Cierra el diálogo
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => const LoginScreen()),
+                ); // Navega a la pantalla de inicio de sesión
+              },
+              child: const Text('Ir a Iniciar Sesión'),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -62,14 +83,8 @@ class _RegistroScreenState extends State<RegistroScreen> {
                   labelText: 'Correo Electrónico',
                   filled: true,
                   fillColor: Colors.white,
-                  contentPadding: const EdgeInsets.symmetric(
-                    horizontal: 20,
-                    vertical: 16,
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide.none,
-                  ),
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide.none),
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -86,14 +101,8 @@ class _RegistroScreenState extends State<RegistroScreen> {
                   labelText: 'Contraseña',
                   filled: true,
                   fillColor: Colors.white,
-                  contentPadding: const EdgeInsets.symmetric(
-                    horizontal: 20,
-                    vertical: 16,
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide.none,
-                  ),
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide.none),
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -111,17 +120,19 @@ class _RegistroScreenState extends State<RegistroScreen> {
                     backgroundColor: const Color(0xFF4A90E2),
                     foregroundColor: Colors.white,
                     padding: const EdgeInsets.symmetric(vertical: 16),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                     elevation: 1,
                   ),
-                  child: const Text(
-                    'Registrarse',
-                    style: TextStyle(fontSize: 16),
-                  ),
+                  child: const Text('Registrarse', style: TextStyle(fontSize: 16)),
                 ),
               ),
+              TextButton(
+                onPressed: () {
+                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const LoginScreen()));
+                },
+                child: const Text('¿Ya tienes una cuenta?'),
+              ),
+              const Text('¡Hazlo fácil, comienza con nosotros!'),
             ],
           ),
         ),
