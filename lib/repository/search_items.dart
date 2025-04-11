@@ -12,7 +12,7 @@ class ProductoConsultas {
     return snapshot.docs.map((doc) {
       return Producto.fromFirestore(
         doc as DocumentSnapshot<Map<String, dynamic>>, 
-        null,
+        
       );
     }).toList();
   }
@@ -21,13 +21,13 @@ class ProductoConsultas {
   Future<List<Producto>> buscarPorNombre(String texto) async {
     final snapshot = await inventario
         .where('nombre', isGreaterThanOrEqualTo: texto)
-        .where('nombre', isLessThan: texto + 'z')
+        .where('nombre', isLessThan: '${texto}z')
         .get();
 
     return snapshot.docs.map((doc) {
       return Producto.fromFirestore(
         doc as DocumentSnapshot<Map<String, dynamic>>, 
-        null,
+        
       );
     }).toList();
   }
@@ -41,7 +41,7 @@ class ProductoConsultas {
     return snapshot.docs.map((doc) {
       return Producto.fromFirestore(
         doc as DocumentSnapshot<Map<String, dynamic>>, 
-        null,
+        
       );
     }).toList();
   }
@@ -51,13 +51,13 @@ class ProductoConsultas {
     final snapshot = await inventario
         .where('categoria', isEqualTo: categoria)
         .where('nombre', isGreaterThanOrEqualTo: texto)
-        .where('nombre', isLessThan: texto + 'z')
+        .where('nombre', isLessThan: '${texto}z')
         .get();
 
     return snapshot.docs.map((doc) {
       return Producto.fromFirestore(
         doc as DocumentSnapshot<Map<String, dynamic>>, 
-        null,
+        
       );
     }).toList();
   }
