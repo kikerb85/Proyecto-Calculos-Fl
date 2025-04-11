@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:gestion_de_inventario/screens/login/login_screen.dart'; // Importa la pantalla de inicio de sesión
 
 class RegistroScreen extends StatefulWidget {
-  const RegistroScreen({Key? key}) : super(key: key);
+  const RegistroScreen({super.key});
 
   @override
   _RegistroScreenState createState() => _RegistroScreenState();
