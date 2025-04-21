@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gestion_de_inventario/core/lista_productos.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -12,6 +13,7 @@ class HomeScreen extends StatelessWidget {
           IconButton(
             onPressed: () {
               // TODO: Agregar funcionalidad para el botón de agregar
+              
             },
             icon: const Icon(Icons.add),
           ),
@@ -24,6 +26,13 @@ class HomeScreen extends StatelessWidget {
             ElevatedButton.icon(
               onPressed: () {
                 // TODO: Agregar funcionalidad para la pantalla de productos
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ListaProductosScreen (),
+                    ),
+                  );
+
               },
               icon: const Icon(Icons.shopping_bag),
               label: const Text('PRODUCTS'),

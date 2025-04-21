@@ -8,7 +8,7 @@ class Producto {
  final String categoria;
  final String descripcion;
  final double precio;
- final int stock;
+ final String stock;
 
  Producto ({
   this.id ='',
@@ -36,9 +36,17 @@ factory Producto.fromFirestore(DocumentSnapshot<Map<String, dynamic>> doc){
     nombre: data? ['nombre'] ?? '' , 
     categoria: data? ['categoria'] ?? '', 
     descripcion: data?['descripcion'] ?? '', 
-    precio: (data? ['precio'] ?? 0.0).toDouble(), 
+    precio: _parsePrecio(data?['precio']), 
     stock: data? ['stock'] ?? '',
     );
 }
+static double _parsePrecio(dynamic precioData) {
+    if (precioData is num) {
+      return precioData.toDouble();
+    } else if (precioData is String) {
+      return double.tryParse(precioData) ?? 0.0; 
+    }
+    return 0.0; 
+  }
 
 }
